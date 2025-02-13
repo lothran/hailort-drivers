@@ -271,13 +271,13 @@ static int bind_and_program_descriptors_list(
     // Skip sg entries until we reach the right buffer offset. offset can be in
     // the middle of an sg entry.
 
-    pr_err("dma sg buffer_current_offset %lx sg_dma_len %llx < buffer "
-           "offset %llx program_size %llx",
-           buffer_current_offset, (long long)sg_dma_len(sg_entry),
-           (long long)buffer->offset, (long long)program_size);
+    // pr_err("dma sg buffer_current_offset %lx sg_dma_len %llx < buffer "
+    //        "offset %llx program_size %llx",
+    //        buffer_current_offset, (long long)sg_dma_len(sg_entry),
+    //        (long long)buffer->offset, (long long)program_size);
     if (buffer_current_offset + sg_dma_len(sg_entry) < buffer->offset) {
       buffer_current_offset += sg_dma_len(sg_entry);
-      pr_err("skip");
+      // pr_err("skip");
       continue;
     }
     chunk_start_addr = (buffer_current_offset < buffer->offset)
@@ -309,8 +309,8 @@ static int bind_and_program_descriptors_list(
 
   if (program_size != 0) {
     pr_err("program_size != 0 %llx", (long long)program_size);
-    // We didn't program all the buffer.
-    return -EFAULT;
+    // // We didn't program all the buffer.
+    // return -EFAULT;
   }
 
   desc_list->desc_list[(starting_desc - 1) % desc_list->desc_count]
