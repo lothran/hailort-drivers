@@ -270,8 +270,14 @@ static int bind_and_program_descriptors_list(
   for_each_sgtable_dma_sg(buffer->sg_table, sg_entry, i) {
     // Skip sg entries until we reach the right buffer offset. offset can be in
     // the middle of an sg entry.
+
+    pr_err("dma sg buffer_current_offset %lx sg_dma_len %llx < buffer "
+           "offset %llx program_size %llx",
+           buffer_current_offset, (long long)sg_dma_len(sg_entry),
+           (long long)buffer->offset, (long long)program_size);
     if (buffer_current_offset + sg_dma_len(sg_entry) < buffer->offset) {
       buffer_current_offset += sg_dma_len(sg_entry);
+      pr_err("skip");
       continue;
     }
     chunk_start_addr = (buffer_current_offset < buffer->offset)
@@ -283,10 +289,13 @@ static int bind_and_program_descriptors_list(
                              (buffer->offset - buffer_current_offset))
                      : (u32)(sg_dma_len(sg_entry));
     chunk_size = min((u32)program_size, chunk_size);
+    pr_err("chunk_start_addr %llx chunk_size %llx", (long long)chunk_start_addr,
+           (long long)chunk_size);
 
     descs_programmed_in_chunk = hailo_vdma_program_descriptors_in_chunk(
         vdma_hw, chunk_start_addr, chunk_size, desc_list, starting_desc,
         max_desc_index, channel_index, vdma_hw->ddr_data_id);
+
     if (descs_programmed_in_chunk < 0) {
       pr_err("descs_programmed_in_chunk < 0");
       return descs_programmed_in_chunk;
@@ -299,7 +308,7 @@ static int bind_and_program_descriptors_list(
   }
 
   if (program_size != 0) {
-    pr_err("program_size != 0");
+    pr_err("program_size != 0 %llx", (long long)program_size);
     // We didn't program all the buffer.
     return -EFAULT;
   }
