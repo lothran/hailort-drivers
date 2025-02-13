@@ -186,7 +186,7 @@ int hailo_vdma_program_descriptors_in_chunk(
       chunk_addr, chunk_addr + chunk_size, page_size,
       get_channel_id(channel_index));
   if (INVALID_VDMA_ADDRESS == encoded_addr) {
-    pr_err("INVALID_VDMA_ADDRESS == encoded_addr: %x", chunk_addr);
+    pr_err("INVALID_VDMA_ADDRESS == encoded_addr: %lx", chunk_addr);
     return -EFAULT;
   }
 
