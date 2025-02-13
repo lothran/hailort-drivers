@@ -258,7 +258,7 @@ static int bind_and_program_descriptors_list(
 
   if (buffer->offset % desc_list->desc_page_size != 0) {
 
-    pr_err("buffer->offset % desc_list->desc_page_size != 0");
+    pr_err("buffer->offset  desc_list->desc_page_size != 0");
     return -EFAULT;
   }
 
