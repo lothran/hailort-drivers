@@ -289,8 +289,9 @@ static int bind_and_program_descriptors_list(
                              (buffer->offset - buffer_current_offset))
                      : (u32)(sg_dma_len(sg_entry));
     chunk_size = min((u32)program_size, chunk_size);
-    pr_err("chunk_start_addr %llx chunk_size %llx", (long long)chunk_start_addr,
-           (long long)chunk_size);
+    // pr_err("chunk_start_addr %llx chunk_size %llx", (long
+    // long)chunk_start_addr,
+    //        (long long)chunk_size);
 
     descs_programmed_in_chunk = hailo_vdma_program_descriptors_in_chunk(
         vdma_hw, chunk_start_addr, chunk_size, desc_list, starting_desc,

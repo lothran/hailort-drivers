@@ -1262,8 +1262,6 @@ static bool is_kmalloc_dma_capable(struct device *dev) {
   dma_addr = phys_to_dma(dev, phys_addr);
 
   capable = is_dma_capable(dev, dma_addr, PAGE_SIZE);
-
-  pci_notice(pdev, "Probing: kmalloc dma capable\n");
   kfree(check_addr);
   return capable;
 }
